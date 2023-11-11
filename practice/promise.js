@@ -3,6 +3,7 @@ class MyPromise {
     this.status = "pending";
     this.onFullfilledCallback = [];
     this.onRejectedCallback = [];
+    this.result = null;
     fn(this.resolve.bind(this), this.reject.bind(this));
   }
 
