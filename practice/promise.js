@@ -1,6 +1,7 @@
 class MyPromise {
   constructor(fn) {
     this.status = "pending";
+    this.result = null;
     this.onFullfilledCallback = [];
     this.onRejectedCallback = [];
     this.result = null;
@@ -11,12 +12,14 @@ class MyPromise {
     if (this.status === "pending") {
       this.status = "rejected";
       console.log(err);
+      this.result = err;
     }
   }
 
   resolve(res) {
     if (this.status === "pending") {
       this.status = "fullfilled";
+      this.result = res;
       console.log(res);
     }
   }
