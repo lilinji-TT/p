@@ -11,7 +11,7 @@ class Child extends Parent {
   };
   constructor(props) {
     super(props);
-    // 试图直接使用 this
+    // 派生类试图直接使用 this， 会报错
     this.props = {
       name: "lisi",
       age: 20,
