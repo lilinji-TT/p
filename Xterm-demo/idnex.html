@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="node_modules/xterm/css/xterm.css" />
+    <script src="node_modules/xterm/lib/xterm.js"></script>
+</head>
+
+<body>
+    <div id="terminal"></div>
+    <script>
+        var term = new Terminal();
+        term.open(document.getElementById('terminal'));
+        ws = new WebSocket(
+            `wss://pai-dlc-proxy-cn-wulanchabu.aliyuncs.com/shared/terminal/t1654108467717041/dlc10pjbwljm69uj/dlc10pjbwljm69uj-master-0?Token=token17dp1c5lw7f`,
+        );
+        ws.onopen = function open() {
+            console.warn('connected');
+            term.write('\r');
+        };
+
+        ws.onclose = function close() {
+            console.warn('disconnected');
+            term.write('Connection closed');
+        };
+
+        // 收到后端返回
+        ws.onmessage = function incoming(event) {
+            const msg = JSON.parse(event.data);
+            console.warn(msg);
+            if (msg.operation === 'stdout') {
+                term.write(msg.data);
+            } else {
+                console.warn('invalid msg operation: ' + msg);
+            }
+        };
+
+        // 控制台输入
+        term.onData(data => {
+            const msg = { operation: 'stdin', data: data };
+            ws.send(JSON.stringify(msg));
+        });
+
+        term.onResize(size => {
+            const msg = { operation: 'resize', cols: size.cols, rows: size.rows };
+            setTimeout(() => ws.send(JSON.stringify(msg)), 15000);
+        });
+    </script>
+</body>
+
+</html>
