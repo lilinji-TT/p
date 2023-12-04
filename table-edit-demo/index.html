@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+    </div>
+    <script>
+        const Box = document.getElementById("app");
+
+        setTimeout(() => {
+            Box.innerText = 'hello';
+        }, 1000);
+
+        debugger;
+
+        Promise.resolve("micro").then(res => {
+            Box.innerText = res;
+        })
+    </script>
+</body>
+
+</html>

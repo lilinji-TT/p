@@ -8,3 +8,12 @@ console.log(
     return item * 2;
   })
 );
+
+
+const createDefaultObj = () => {
+    return {
+        data: [1,2,3,4]
+    }
+}
+
+const res: { data } = createDefaultObj();

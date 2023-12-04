@@ -1,23 +1,49 @@
 <!DOCTYPE HTML>
 <html>
 
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/xterm@4.14.1/lib/xterm.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@4.14.1/lib/xterm.css" />
+</head>
+
 <body>
+    <div>
+        <input id="input" type="text">
+
+        <div id="content"></div>
+        <div id="terminal"></div>
+    </div>
     <script>
-        const ws = new WebSocket("ws://localhost:8080");
-
-        ws.onopen = function () {
-            ws.send("发送数据");
-            setTimeout(() => {
-                ws.send("发送数据2");
-            }, 3000);
+        var term = new Terminal();
+        term.open(document.getElementById('terminal'));
+        term.write('Hello, world!');
+        const input = document.getElementById("input");
+        const ws = new WebSocket("wss://pai-dlc-proxy-cn-wulanchabu.aliyuncs.com/shared/terminal/t1654108467717041/dlc10pjbwljm69uj/dlc10pjbwljm69uj-master-0?Token=tokenkwgb2dq9shx");
+        const content = document.getElementById("content");
+        let data = "";
+        ws.onopen = function (e) {
+            console.log(e);
         };
-
+        input.onchange = function (e) {
+            ws.send(JSON.stringify({
+                operation: 'stdin',
+                data: e.target.value
+            }));
+        };
         ws.onmessage = function (evt) {
             console.log(evt);
+            const obj = JSON.parse(evt.data);
+            console.log('接受到的：', obj);
         };
 
-        ws.onclose = function () {
+        ws.onclose = function (e) {
+            console.log('ws断开', e);
+            console.log("close", e.code, e.reason, e.wasClean);
         };
+
+        ws.onerror = function (e) {
+            console.log("error", e);
+        }
     </script>
 </body>
 
