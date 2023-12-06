@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <button id="open-file">打开文件</button>
+        <button></button>
+    </div>
+    <script>
+        const openFileBtn = document.querySelector('#open-file');
+        openFileBtn.addEventListener('click', async () => {
+            const handle = await window.showDirectoryPicker();
+            for await (const [name, handle1] of handle.entries()) {
+                console.log(name, handle1);
+            }
+        })
+    </script>
+</body>
+
+</html>
