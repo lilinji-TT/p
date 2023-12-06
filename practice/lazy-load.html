@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 40px;
+        }
+
+        .container {
+            width: 10rem;
+            height: 20rem;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .item {
+            width: 80%;
+            height: 2rem;
+            border: 1px solid #d61f1f;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="item">123</div>
+        <div class="image-box">
+            <img data-src="https://bpic.51yuansu.com/pic3/cover/01/14/13/59041d1347d0a_610.jpg" src="" alt=""
+                style="display: none;">
+        </div>
+    </div>
+    <script>
+        const container = document.querySelector('.container');
+        const img = document.querySelector('img');
+        const imageBox = document.querySelector('.image-box');
+
+        container.addEventListener('scroll', (e) => {
+            const rect = imageBox.getBoundingClientRect();
+            console.log(rect.top, container.clientHeight);
+            if (rect.top - container.clientHeight <= 200) {
+                img.src = img.dataset.src;
+                img.style.display = 'block';   // 同时显示图片
+            }
+        });
+    </script>
+</body>
+
+</html>
