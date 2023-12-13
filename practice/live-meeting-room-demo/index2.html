@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            position: relative;
+            width: 80vw;
+            height: 80vh;
+        }
+
+        #video-box {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+    </style>
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <video id="video-box"></video>
+    </div>
+    <div>
+        <button id="start-share" onclick="startShareScreen()">
+            开始共享屏幕
+        </button>
+    </div>
+    <script>
+        let peerId = prompt("请输入您的 ID:");
+
+        const video = document.getElementById('video-box');
+        const liveRoomConfig = {
+            peer: null,
+        };
+
+        liveRoomConfig.peer = new Peer(peerId, {
+            host: '127.0.0.1',
+            port: '5500',
+        });
+
+        liveRoomConfig.peer.on('open', (id) => {
+            console.log('My peer ID is: ' + id);
+            liveRoomConfig.peerId = id;
+        });
+
+        liveRoomConfig.peer.on('disconnect', () => {
+            console.log('disconnected');
+        });
+
+        liveRoomConfig.peer.on('call', (call) => {
+            call.answer(createEmptyMediaStream()); // 或者回应其他媒体流
+            call.on('stream', (remoteStream) => {
+                console.log('remoteStream', remoteStream);
+                video.srcObject = remoteStream;
+                video.play();
+            });
+        });
+
+
+        function createEmptyMediaStream() {
+            return new MediaStream();
+        }
+
+        async function startShareScreen() {
+            const otherPeerId = prompt("请输入要呼叫的对等方 ID:");
+            const stream = await navigator.mediaDevices.getDisplayMedia({
+                video: {
+                    cursor: 'always',
+                }
+            });
+
+            liveRoomConfig.peer.call(otherPeerId, stream);
+        }
+    </script>
+
+</body>
+
+</html>
