@@ -1,7 +1,7 @@
 function processTasks(...tasks) {
   let isRunning = false;
   let result = [];
-  let prom = null;
+  let prom = null; // 保存promise的状态
   let i = 0;
   return {
     start() {
