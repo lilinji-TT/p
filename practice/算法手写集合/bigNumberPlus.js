@@ -22,4 +22,4 @@ function addBigNumber(str1, str2) {
   return result;
 }
 
-console.log(addBigNumber("199999", "9090"));
+console.log(addBigNumber("199999", "999090"));
