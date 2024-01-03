@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 400px;
+            height: 400px;
+            border: 1px solid #000;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .router-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-item {
+            width: 33.3%;
+            border: 1px solid #000;
+            text-align: center;
+        }
+    </style>
+    <div class="container">
+        <div class="router-nav">
+            <button class="nav-item home">首页</button>
+            <button class="nav-item center">个人中心</button>
+            <button class="nav-item about">关于</button>
+        </div>
+        <div class="page-content"></div>
+    </div>
+    <script>
+
+        // 给三个按钮绑定点击回调，从而可以修改url
+        const homeButt = document.querySelector(".home");
+        const centerButt = document.querySelector(".center");
+        const aboutButt = document.querySelector(".about");
+
+        homeButt.addEventListener("click", () => {
+            history.pushState({ path: "/" }, '', './');
+        });
+        centerButt.addEventListener("click", () => {
+            history.pushState({ path: "/center" }, '', './center');
+        });
+        aboutButt.addEventListener("click", () => {
+            history.pushState({ path: "/about" }, '', './about');
+        });
+
+        const routes = [
+            {
+                path: "/",
+                component: "<div>首页</div>"
+            },
+            {
+                path: '/center',
+                component: '<div>个人中心</div>'
+            },
+            {
+                path: '/about',
+                component: '<div>关于</div>'
+            },
+        ];
+        // 对原生的pushState和replaceState进行处理
+        const _warp = (eventType) => {
+            // 拿到原本的方法保存
+            const originFunc = history[eventType];
+            // _warp返回的新函数做两件事情
+            // 1. 保证原生的方法正常使用
+            // 2. 触发一个自定义事件，使新的pushState（replaceState）被监听
+            return function () {
+                // 执行原本的方法拿到执行结果，结果应该是和和原生的一致，
+                // 所以传入this，arguments
+                const result = originFunc.apply(this, arguments);
+
+                // 下面三行代码，创建一个pushState事件，
+                // 然后dispatch出去，就做到了让pushState方法也可被监听，
+                // 把arguments挂在事件对象e上，目的就一个，
+                // pushState的第一个参数可以记录一些信息，
+                // 按钮绑定的回调，我们记录了一个path，
+                // 我们以后就拿着这个path去对比，以得到该展示的路由组件
+                const e = new Event(eventType);
+                e.arguments = arguments;
+                window.dispatchEvent(e);
+
+                return result;
+            };
+        };
+
+        history.pushState = _warp("pushState");
+        history.replaceState = _warp("replaceState");
+
+        const matchComponent = (path) => {
+            const { component } = routes.find((route) => route.path === path);
+            document.querySelector(".page-content").innerHTML = component ? component : routes[0].component;
+        };
+
+        window.addEventListener("load", () => {
+            matchComponent("/");
+        });
+
+        window.addEventListener("pushState", (e) => {
+            matchComponent(e.arguments[0].path);
+        });
+
+        window.addEventListener("popstate", (e) => {
+            // 逻辑是比较粗糙的，如果没有state，就直接默认用"/"路径去匹配了
+            if (window.history.state) {
+                matchComponent(window.history.state.path);
+            } else {
+                matchComponent("/");
+            }
+        })
+
+    </script>
+</body>
+
+</html>
