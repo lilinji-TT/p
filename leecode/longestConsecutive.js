@@ -58,3 +58,27 @@ var _longestConsecutive = function (nums) {
 _longestConsecutive([100, 1, 200, 2, 4, 3]);
 console.log(_longestConsecutive([0, 3, 7, 2, 5, 8, 4, 6, 0, 1])); // 9
 console.log(_longestConsecutive([100, 1, 200, 2, 4, 3])); // 4
+
+
+// first
+var __longestConsecutive = function (nums) {
+  if (nums.length === 0) return 0;
+  let pre = 0,
+    next = 0;
+  let ans = 1;
+  let temLen = 1;
+  while (next < nums.length) {
+    if (nums[next] - nums[pre] === 1) {
+      ++temLen;
+    } else if (nums[next] - nums[pre] === 0) {
+    } else {
+      temLen = 1;
+    }
+
+    ans = Math.max(ans, temLen);
+    pre++;
+    next++;
+  }
+
+  return ans;
+};
