@@ -40,8 +40,6 @@ var _longestConsecutive = function (nums) {
       map.set(num + nextLen, curLen); // 更新右端
       map.set(num - preLen, curLen); // 更新左端
     }
-
-    console.log(map);
   }
 
   return ans;
@@ -55,10 +53,9 @@ var _longestConsecutive = function (nums) {
  * Map(5) { 100 => 1, 1 => 2, 200 => 1, 2 => 2, 4 => 1 }
  * Map(6) { 100 => 1, 1 => 4, 200 => 1, 2 => 2, 4 => 4, 3 => 4 }
  */
-_longestConsecutive([100, 1, 200, 2, 4, 3]);
+_longestConsecutive([0, 3, 7, 2, 5, 8, 4, 6, 0, 1]);
 console.log(_longestConsecutive([0, 3, 7, 2, 5, 8, 4, 6, 0, 1])); // 9
 console.log(_longestConsecutive([100, 1, 200, 2, 4, 3])); // 4
-
 
 // first
 var __longestConsecutive = function (nums) {
