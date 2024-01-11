@@ -37,8 +37,13 @@ var _longestConsecutive = function (nums) {
       let curLen = preLen + 1 + nextLen; // 计算当前项
       map.set(num, curLen); // 将当前项对应的序列长度存入
       ans = Math.max(ans, curLen); // 更新结果
-      map.set(num + nextLen, curLen); // 更新右端
-      map.set(num - preLen, curLen); // 更新左端
+      // 这里为什么是nextLen，preLen而不是单纯的+1，—1呢？
+      // 假设 2，3，4，5，6
+      // 我们处理到4了，此时的preLen为2，nextLen为2，curLen加上本身和前后的为5
+      // 假设我们仅仅是+1，-1更新了3，5的位置那么下次进来的是1，7就无法正确计算序列值了
+      // 所以我们需要计算边界的序列长度
+      map.set(num + nextLen, curLen); // 更新右端边界, 如果是+1, 5就占位置了, 下一个5进来就不处理了,后面就错了
+      map.set(num - preLen, curLen); // 更新左端边界, 如果是-1, 比如上面的例子,处理4,结果只更新了3的序列长度,导致处理1的时候拿到的序列长度是错误的
     }
 
     console.log(map);
@@ -58,7 +63,6 @@ var _longestConsecutive = function (nums) {
 _longestConsecutive([100, 1, 200, 2, 4, 3]);
 console.log(_longestConsecutive([0, 3, 7, 2, 5, 8, 4, 6, 0, 1])); // 9
 console.log(_longestConsecutive([100, 1, 200, 2, 4, 3])); // 4
-
 
 // first
 var __longestConsecutive = function (nums) {
