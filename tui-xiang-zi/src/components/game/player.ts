@@ -35,11 +35,10 @@ export function useMove() {
   });
 }
 
-export function usePosition() {
-  const { Player } = usePlayerStore();
+export function usePosition(pos: { x: number; y: number }) {
   const STEP = 32;
   const Position = computed(() => {
-    return { left: Player.x * STEP + "px", top: Player.y * STEP + "px" };
+    return { left: pos.x * STEP + "px", top: pos.y * STEP + "px" };
   });
   return {
     Position,
