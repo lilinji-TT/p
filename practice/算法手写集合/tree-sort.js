@@ -22,13 +22,20 @@ function inorderTraversalRecursive_2(root) {
   let stack = [];
   let currentNode = root;
 
+  // 当前节点不为空，或者栈不为空
   while (currentNode !== null || stack.length > 0) {
+    // 从root节点出发，遍历存储左节点
     while (currentNode !== null) {
       stack.push(currentNode);
       currentNode = currentNode.left;
     }
+
+    // 弹出栈顶节点
     currentNode = stack.pop();
+    // 保存当前节点的值，也就是中
     result.push(currentNode.value);
+
+    // 最后右
     currentNode = currentNode.right;
   }
 
