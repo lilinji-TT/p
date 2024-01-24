@@ -36,7 +36,7 @@ var findAnagrams = function (s, p) {
         count++;
       }
 
-      // 更新start索引所在字符的出现次数，已经不在滑动窗口内
+      // 更新start索引所在字符的出现次数，即将不在滑动窗口内
       map.set(s[start], map.get(s[start]) + 1);
       start++;
     }
