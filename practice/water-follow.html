@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            position: relative;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+
+    </div>
+    <script>
+        const container = document.getElementById("container");
+
+        let children = [];
+        function createChildren(num) {
+            const item = document.createElement("div");
+            item.style.backgroundColor = `rgb(${Math.round(Math.random() * 255)},${Math.round(Math.random() * 255)},${Math.round(Math.random() * 255)})`;
+            item.style.height = `${Math.round(Math.random() * 100 + 100)}px`;
+            item.style.width = '200px';
+            item.style.border = '1px solid black';
+            item.style.margin = "5px";
+            item.style.position = 'absolute';
+            item.innerText = num;
+
+            return item;
+        }
+
+
+        function createChidlren(count) {
+            for (let i = 0; i < count; i++) {
+                const item = createChildren(i);
+                children.push(item);
+            }
+        }
+
+        function setupWaterfall() {
+            const containerWidth = container.clientWidth;
+            const singleItemWidth = 200 + 10; // 项目宽度加上左右margin
+            const colCount = Math.floor(containerWidth / singleItemWidth);
+            const colHeights = Array(colCount).fill(0);
+
+            for (let i = 0; i < children.length; i++) {
+                const item = children[i];
+                const minHeight = Math.min(...colHeights);
+                const colIndex = colHeights.indexOf(minHeight);
+
+                const x = colIndex * singleItemWidth;
+                const y = minHeight;
+
+                item.style.left = `${x}px`;
+                item.style.top = `${y}px`;
+
+                colHeights[colIndex] += +item.style.height.substring(0, 3) + 10; // 加上上下margin
+                container.appendChild(item);
+            }
+            // 设置容器的高度为最高列的高度
+            container.style.height = `${Math.max(...colHeights)}px`;
+        }
+
+        createChidlren(50);
+        setupWaterfall();
+    </script>
+</body>
+
+</html>
