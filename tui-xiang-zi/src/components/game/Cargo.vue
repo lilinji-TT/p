@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { reactive } from "vue";
 import cargoImg from "../../assets/Cargo.png";
 import { usePosition } from "./player";
 
