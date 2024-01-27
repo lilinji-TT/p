@@ -73,6 +73,30 @@
 
         createChidlren(50);
         setupWaterfall();
+
+        function debounce(fn, delay = 500) {
+            let timer = null;
+
+            return function (...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    fn(...args);
+                }, delay);
+            };
+        }
+
+        function scrollHandler(e) {
+            if (e.target.scrollTop + container.clientHeight > e.target.scrollBottom) {
+                console.log("触底了");
+            }
+        }
+
+        const handler = debounce(scrollHandler, 1000);
+        window.addEventListener("scroll", handler);
+
+        window.onbeforeunload = function () {
+            window.removeEventListener("scroll", handler);
+        }
     </script>
 </body>
 
