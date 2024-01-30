@@ -16,9 +16,8 @@ var minWindow = function (s, t) {
 
   for (let i = 0, j = 0; i < s.length; i++) {
     if (map.has(s[i])) {
-      let l = map.get(s[i]);
-      map.set(s[i], l - 1);
-      if (l === 0) {
+      map.set(s[i], map.get(s[i]) - 1);
+      if (map.get(s[i]) === 0) {
         charCount--;
       }
     }
@@ -26,14 +25,13 @@ var minWindow = function (s, t) {
     while (charCount === 0) {
       if (i - j < minLen) {
         minLen = i - j;
-        result = s.slice(j, i);
+        result = s.slice(j, i + 1);
       }
 
       if (map.has(s[j])) {
-        let l = map.get(s[j]);
-        map.set(s[j], l + 1);
+        map.set(s[j], map.get(s[j]) + 1);
 
-        if (l > 0) {
+        if (map.get(s[j]) > 0) {
           charCount++;
         }
       }
@@ -41,8 +39,8 @@ var minWindow = function (s, t) {
       j++;
     }
   }
-  
+
   return result;
 };
 
-console.log(minWindow("window", "ow"));
+console.log(minWindow("adobecodebanc", "abc"));
