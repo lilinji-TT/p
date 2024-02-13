@@ -26,7 +26,7 @@ var totalFruit = function (fruits) {
   for (let i = 0; i < len; i++) {
     r.set(fruits[i], (r.get(fruits[i]) || 0) + 1); // 记录当前水果种类
 
-    // 种类超过两种，需要处理
+    // 种类超过两种，需要处理 0-i 范围内的， 00 11 3 4
     while (r.size > 2) {
       r.set(fruits[j], r.get(fruits[j]) - 1); // 记录的种类数量减一
       if (r.get(fruits[j]) === 0) {
@@ -41,4 +41,4 @@ var totalFruit = function (fruits) {
   return ans;
 };
 
-console.log(totalFruit([0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2]));
+console.log(totalFruit([0, 1, 1, 1, 1, 1, 3, 4, 1, 2, 2]));
