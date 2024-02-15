@@ -68,6 +68,7 @@ class MyPromise {
                 resolve(this.PromiseResult);
               } else {
                 let x = onFullfilled(this.result);
+                // 解析回调返回的结果，然后有可能是一条新的promise链，持续解析完毕后才回到最初的promise
                 resolvePromise(promise, x, resolve, reject);
               }
             } catch (e) {
