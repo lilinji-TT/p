@@ -2,6 +2,10 @@ class Parent {
   constructor(props) {
     this.props = props;
   }
+
+  say() {
+    console.log("hello world !");
+  }
 }
 
 class Child extends Parent {

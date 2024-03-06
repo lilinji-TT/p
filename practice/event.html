@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        debugger;
+        const container = document.createElement('div');
+        Promise.resolve().then(() => {
+            container.innerHTML = 'mrico_task';
+        }).then(() => {
+            container.innerHTML = '123';
+        });
+
+        setTimeout(() => {
+            container.innerHTML = '宏任务';
+        }, 0);
+
+        container.innerHTML = 'render';
+    </script>
+</body>
+
+</html>
